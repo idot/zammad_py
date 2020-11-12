@@ -125,6 +125,11 @@ class ZammadAPI(object):
         """
         return User(connection=self)
 
+    @property
+    def tag_list(self):
+        """Return a `TagList` instance
+        """
+        return TagList(connection=self)
 
 class Pagination(object):
 
@@ -370,7 +375,15 @@ class Object(Resource):
         )
         return self._raise_or_return_json(response)
 
-
 class TagList(Resource):
 
-    path_attribute = 'tag_list'
+    def add(self, params):
+        """add the tags to object
+        :param params: Resource data for creating
+        """
+        response = self._connection.session.post(
+            self.url,
+            json=params
+        )
+
+    path_attribute = 'tags/add'
